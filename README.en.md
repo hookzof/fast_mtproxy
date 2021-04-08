@@ -5,6 +5,9 @@ Fast deployment of the official MTProxy server with Fake TLS support.
   
 It's also worth paying attention to third-party implementations of MTProxy: [Erlang](https://github.com/seriyps/mtproto_proxy), [Golang](https://github.com/9seconds/mtg), [Python](https://github.com/alexbers/mtprotoproxy)
 
+## Supported OS images
+*
+
 ## Working with the script
 ### Downloading an executable file
 ```bash
