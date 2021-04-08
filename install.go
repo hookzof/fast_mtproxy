@@ -9,6 +9,7 @@ import (
 	"net"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 )
 
@@ -54,6 +55,12 @@ func getTrueIP(ver string) string {
 }
 
 func main() {
+	if runtime.GOOS != "linux" {
+		fmt.Println("The platform is not supported | Платформа не поддерживается")
+		_, _ = fmt.Scanln()
+		return
+	}
+
 	log.Println("          Starting | Начало работы")
 
 	portStats := flag.String("p", "", "Is the local port for stats")
