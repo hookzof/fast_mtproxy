@@ -13,12 +13,13 @@ import (
 )
 
 func cmd(cmd string) string {
-	out, err := exec.Command("sh", "-c", cmd).Output()
-	if err != nil && err.Error() != "exit status 1" && err.Error() != "exit status 2" {
+	if out, err := exec.Command("sh", "-c", cmd).Output(); err != nil && err.Error() != "exit status 1" &&
+		err.Error() != "exit status 2" {
 		log.Println("[error]", err, "("+cmd+")")
+		return ""
+	} else {
+		return string(out)
 	}
-
-	return string(out)
 }
 
 func randomHex(n int) string {
@@ -28,24 +29,23 @@ func randomHex(n int) string {
 }
 
 func getIP() string {
-	conn, err := net.Dial("udp", "8.8.8.8:80")
-	if err != nil {
+	if conn, err := net.Dial("udp", "8.8.8.8:80"); err == nil {
+		defer func() {
+			err := conn.Close()
+			if err != nil {
+				log.Println("[error]", err)
+			}
+		}()
+
+		return conn.LocalAddr().(*net.UDPAddr).IP.String()
+	} else {
 		log.Println("[error]", err, "(Couldn't identify IP | Не удалось определить IP)")
+		return ""
 	}
-
-	defer func() {
-		err := conn.Close()
-		if err != nil {
-			log.Println("[error]", err)
-		}
-	}()
-
-	return conn.LocalAddr().(*net.UDPAddr).IP.String()
 }
 
 func getTrueIP(ver string) string {
-	ip := cmd("curl ifconfig.co -" + ver)
-	ip = strings.Trim(ip, "\n")
+	ip := strings.Trim(cmd("curl ifconfig.co -"+ver), "\n")
 	if net.ParseIP(ip) != nil {
 		return ip
 	}
@@ -155,15 +155,15 @@ func main() {
 
 	if _, err := os.Stat("/etc/centos-release"); !os.IsNotExist(err) {
 		cmd("yum update")
-		cmd("yum -y install openssl-devel zlib-devel")
+		cmd("yum -y install openssl-devel zlib-devel qrencode")
 		cmd("yum -y groupinstall \"Development Tools\"")
 	} else if _, err := os.Stat("/etc/fedora-release"); !os.IsNotExist(err) {
 		cmd("yum update")
-		cmd("yum -y install openssl-devel zlib-devel")
+		cmd("yum -y install openssl-devel zlib-devel qrencode")
 		cmd("yum -y groupinstall \"Development Tools\"")
 	} else {
 		cmd("apt update")
-		cmd("apt -y install git make build-essential libssl-dev zlib1g-dev")
+		cmd("apt -y install git make build-essential libssl-dev zlib1g-dev qrencode")
 	}
 
 	log.Println("        Installing | Установка")
@@ -238,11 +238,13 @@ WantedBy=multi-user.target`
 
 	log.Println(" Program completed | Программа завершена")
 
-	fmt.Println("\n\n\nServer file path | Путь файлов сервера — /opt/mtproxy/")
+	fmt.Println("\n\nServer file path | Путь файлов сервера — /opt/mtproxy/")
 	fmt.Println("Config file path | Путь конфиг файла   — " + path)
 
 	if v4 != "" {
-		fmt.Println("\n\ntg://proxy?server=" + v4 + "&port=" + *port + "&secret=ee" + *secret + fmt.Sprintf("%s", dst) + "\n")
+		fmt.Println("\n\nIPv4:\ntg://proxy?server=" + v4 + "&port=" + *port + "&secret=ee" + *secret + fmt.Sprintf("%s", dst) + "\n")
+		out, _ := exec.Command("sh", "-c", "qrencode -t ansiutf8 -l L \"tg://proxy?server="+v4+"&port="+*port+"&secret=ee"+*secret+fmt.Sprintf("%s", dst)+"\"").Output()
+		fmt.Println(string(out))
 	} else {
 		fmt.Println("\n\nCouldn't get a real ipv4")
 	}
@@ -251,7 +253,9 @@ WantedBy=multi-user.target`
 		v6 := getTrueIP("6")
 
 		if v6 != "" {
-			fmt.Println("tg://proxy?server=" + v6 + "&port=" + *port + "&secret=ee" + *secret + fmt.Sprintf("%s", dst) + "\n\n\n")
+			fmt.Println("IPv6:\ntg://proxy?server=" + v6 + "&port=" + *port + "&secret=ee" + *secret + fmt.Sprintf("%s", dst) + "\n")
+			out, _ := exec.Command("sh", "-c", "qrencode -t ansiutf8 -l L \"tg://proxy?server="+v6+"&port="+*port+"&secret=ee"+*secret+fmt.Sprintf("%s", dst)+"\"").Output()
+			fmt.Println(string(out))
 		} else {
 			fmt.Println("Couldn't get a real ipv6")
 		}
