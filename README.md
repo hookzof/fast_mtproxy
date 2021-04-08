@@ -5,6 +5,9 @@
   
 Также стоит обратить внимание на сторонние реализации MTProxy: [Erlang](https://github.com/seriyps/mtproto_proxy), [Golang](https://github.com/9seconds/mtg), [Python](https://github.com/alexbers/mtprotoproxy)
 
+## Поддерживаемые образы ОС
+*
+
 ## Работа со скриптом
 ### Загрузка исполняемого файла
 ```bash
