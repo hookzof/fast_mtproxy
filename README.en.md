@@ -7,8 +7,8 @@ It's also worth paying attention to third-party implementations of MTProxy: [Erl
 
 ## Supported OS images
 * Ubuntu 18.04/20.04
-* Debian 9/10
-* CentOS 7/8
+* Debian 9/10/11
+* CentOS 7/8/Stream 8
 * Fedora 33
 
 *On other platforms, the work of the script is not guaranteed!*
