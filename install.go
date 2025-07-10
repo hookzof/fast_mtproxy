@@ -249,8 +249,8 @@ WantedBy=multi-user.target`
 	fmt.Println("Config file path | Путь конфиг файла   — " + path)
 
 	if v4 != "" {
-		fmt.Println("\n\nIPv4:\ntg://proxy?server=" + v4 + "&port=" + *port + "&secret=ee" + *secret + fmt.Sprintf("%s", dst) + "\n")
-		out, _ := exec.Command("sh", "-c", "qrencode -t ansiutf8 -l L \"tg://proxy?server="+v4+"&port="+*port+"&secret=ee"+*secret+fmt.Sprintf("%s", dst)+"\"").Output()
+		fmt.Println("\n\nIPv4:\ntg://proxy?server=" + v4 + "&port=" + *port + "&secret=ee" + *secret + string(dst) + "\n")
+		out, _ := exec.Command("sh", "-c", "qrencode -t ansiutf8 -l L \"tg://proxy?server="+v4+"&port="+*port+"&secret=ee"+*secret+string(dst)+"\"").Output()
 		fmt.Println(string(out))
 	} else {
 		fmt.Println("\n\nCouldn't get a real ipv4")
@@ -260,8 +260,8 @@ WantedBy=multi-user.target`
 		v6 := getTrueIP("6")
 
 		if v6 != "" {
-			fmt.Println("IPv6:\ntg://proxy?server=" + v6 + "&port=" + *port + "&secret=ee" + *secret + fmt.Sprintf("%s", dst) + "\n")
-			out, _ := exec.Command("sh", "-c", "qrencode -t ansiutf8 -l L \"tg://proxy?server="+v6+"&port="+*port+"&secret=ee"+*secret+fmt.Sprintf("%s", dst)+"\"").Output()
+			fmt.Println("IPv6:\ntg://proxy?server=" + v6 + "&port=" + *port + "&secret=ee" + *secret + string(dst) + "\n")
+			out, _ := exec.Command("sh", "-c", "qrencode -t ansiutf8 -l L \"tg://proxy?server="+v6+"&port="+*port+"&secret=ee"+*secret+string(dst)+"\"").Output()
 			fmt.Println(string(out))
 		} else {
 			fmt.Println("Couldn't get a real ipv6")
