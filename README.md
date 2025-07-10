@@ -6,10 +6,9 @@
 Также стоит обратить внимание на сторонние реализации MTProxy: [Erlang](https://github.com/seriyps/mtproto_proxy), [Golang](https://github.com/9seconds/mtg), [Python](https://github.com/alexbers/mtprotoproxy)
 
 ## Поддерживаемые образы ОС
-* Ubuntu 18.04/20.04
-* Debian 9/10/11
-* CentOS 7/8/Stream 8
-* Fedora 33
+* Ubuntu 22.04/24.04
+* Debian 12
+* CentOS Stream 9/10
 
 *На других платформах работа скрипта не гарантируется!*
 
@@ -28,7 +27,7 @@ curl -L -o install https://git.io/JeOSr && chmod +x install
 
 ### Пример подробной установки
 ```bash
-./install -p=8888 -H=443 -S=25c8dfee81acdadaff3a338a10db8497 -D=www.google.com
+./install -H=443 -S=25c8dfee81acdadaff3a338a10db8497 -D=www.google.com
 ```
 `-p` - локальный порт для статистики (необязательно);  
 `-H` - порт для подключения;  

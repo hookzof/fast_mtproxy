@@ -6,10 +6,9 @@ Fast deployment of the official MTProxy server with Fake TLS support.
 It's also worth paying attention to third-party implementations of MTProxy: [Erlang](https://github.com/seriyps/mtproto_proxy), [Golang](https://github.com/9seconds/mtg), [Python](https://github.com/alexbers/mtprotoproxy)
 
 ## Supported OS images
-* Ubuntu 18.04/20.04
-* Debian 9/10/11
-* CentOS 7/8/Stream 8
-* Fedora 33
+* Ubuntu 22.04/24.04
+* Debian 12
+* CentOS Stream 9/10
 
 *On other platforms, the work of the script is not guaranteed!*
 
@@ -28,7 +27,7 @@ Default: port 443, generates a random secret key, domain www.google.com
 
 ### Example of detailed installation
 ```bash
-./install -p=8888 -H=443 -S=25c8dfee81acdadaff3a338a10db8497 -D=www.google.com
+./install -H=443 -S=25c8dfee81acdadaff3a338a10db8497 -D=www.google.com
 ```
 `-p` - local port for statistics (optional);  
 `-H` - port to connect;  
