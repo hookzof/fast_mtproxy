@@ -228,7 +228,6 @@ WorkingDirectory=/opt/mtproxy
 ExecStart=/opt/mtproxy/mtproto-proxy -u nobody -H ` + *port + " -S " + *secret + options + ` --aes-pwd proxy-secret proxy-multi.conf
 Restart=on-failure
 LimitNOFILE=1048576
-LimitMEMLOCK=1048576
 
 [Install]
 WantedBy=multi-user.target`
